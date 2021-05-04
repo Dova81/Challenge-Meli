@@ -9,6 +9,10 @@ const StyledSearchBar = styled.div`
     align-items:center;
     background-color:#FFE600;
     padding:15px;
+    form{
+        display:flex;
+        width: 100%;
+    }
 `
 const StyledInput = styled.input`
     color:#999999;
@@ -29,22 +33,24 @@ const StyledButton = styled.button`
 `
 
 
-export default function SearchBar({ }) {
+export default function SearchBar(): JSX.Element {
     const history = useHistory();
 
     const [keyword, setKeyword] = useState("")
 
     const searchKeyword = useCallback(() => {
-        history.push(`items?q=${keyword}`)
+        history.push(`/items?q=${keyword}`)
     }, [keyword])
 
     return (
         <StyledSearchBar>
             <StyledLogo src="/Assets/Logo_ML.png" />
-            <StyledInput type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Nunca dejes de buscar" />
-            <StyledButton onClick={searchKeyword}>
-                <img src="/Assets/ic_Search.png" />
-            </StyledButton>
+            <form onSubmit={searchKeyword}>
+                <StyledInput type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Nunca dejes de buscar" />
+                <StyledButton type="submit">
+                    <img src="/Assets/ic_Search.png" />
+                </StyledButton>
+            </form>
         </StyledSearchBar>
 
     )

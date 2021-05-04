@@ -1,11 +1,12 @@
+import { Item } from 'types/';
 import React, { useMemo } from 'react';
 import styled from 'styled-components'
 
 const StyledItemContainer = styled.div`
     display:flex;
     background-color:#ffffff;
-    margin:0% 5%;
     border-radius:4px;
+    cursor: pointer;
 `
 
 
@@ -42,8 +43,11 @@ const AddressWrapper = styled.div`
     margin: 20px 15px 0px auto;
 `
 
+interface Props {
+    item: Item
+}
 
-export default function Items({ item }) {
+export default function Items({ item }: Props): JSX.Element {
 
     const formatedPrice = useMemo(() =>
         item.price.amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")

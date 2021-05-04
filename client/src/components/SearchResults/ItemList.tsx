@@ -3,11 +3,14 @@ import React, { useCallback } from 'react';
 import useItems from 'utils/useItems';
 import { useLocation } from "react-router-dom";
 import ListedItem from 'components/SearchResults/Item'
+import BreadCrumbWrapper from 'components/BreadCrumb/BreadCrumb'
 import styled from 'styled-components';
 
 import { useHistory } from "react-router-dom";
 
-
+const ListWrapper = styled.div`
+    margin:0% 5%;
+`
 
 const PaginationWrapper = styled.div`
     display: flex;
@@ -21,23 +24,9 @@ const PaginationAnchor = styled.a`
     color:#3425ff;
 `
 
-const BreadCrumbWrapper = styled.div`
-    display:flex;
-    margin:16px 5%;
 
-`
-
-const BreadCrumb = styled.a`
-        &:first-child{
-            span{
-                display:none;  
-            } 
-        }
-        cursor:pointer;
-`
 
 const StyledBorder = styled.span`
-        cursor: pointer;
         .separator{
             margin: 0% 2%;
             background-color: #eeeeee;
@@ -46,7 +35,6 @@ const StyledBorder = styled.span`
         }
 
         .container{
-            margin:0% 5%;
             background-color:white;
             height:2px;
         }
@@ -66,19 +54,12 @@ export default function ItemList() {
 
 
     const searchId = useCallback((id) => {
-        history.push(`items/${id}`)
+        history.push(`/items/${id}`)
     }, [])
 
     return (
-        <>
-            <BreadCrumbWrapper>
-                {categories.map((category) =>
-                    <BreadCrumb>
-                        <span> &#62; </span>
-                        {category}
-                    </BreadCrumb>
-                )}
-            </BreadCrumbWrapper>
+        <ListWrapper>
+            <BreadCrumbWrapper categories={categories} />
 
             {items && items.map((item) =>
                 <StyledBorder onClick={() => searchId(item.id)}>
@@ -97,7 +78,7 @@ export default function ItemList() {
                     Siguiente {">"}
                 </PaginationAnchor>
             </PaginationWrapper>
-        </>
+        </ListWrapper>
     )
 
 }

@@ -1,12 +1,21 @@
-import { useEffect, useState, useMemo, useCallback, useContext } from "react";
+import { useEffect, useState, useMemo, useCallback, useContext, SetStateAction, Dispatch } from "react";
 import API from "api-client/api-client";
+import { Item, Categories, ServerItemList } from 'types/index'
 
 
-export default function useItems(keyword, defaultLimit = 4) {
 
-    const [data, setData] = useState();
-    const [currentPage, setCurrentPage] = useState(0);
-    const [limit, setLimit] = useState(defaultLimit)
+
+export default function useItems(keyword: string | null, defaultLimit = 4): [
+    Array<Item>,
+    Categories,
+    () => void,
+    () => void,
+    Dispatch<SetStateAction<number>>
+] {
+
+    const [data, setData] = useState<ServerItemList>();
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [limit, setLimit] = useState<number>(defaultLimit)
 
     const next = useCallback(() => {
         if (data && data.paging.total / limit > currentPage) {
