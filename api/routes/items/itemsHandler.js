@@ -3,13 +3,8 @@ const Axios = require("axios");
 
 const server = "https://api.mercadolibre.com/sites/MLA/"
 
-const reducer = (accumulator, currentValue) => {
+const reducerItems = (accumulator, currentValue) => {
     return {
-        author: {
-            name: "Tobias",
-            lastname: "Calvento",
-        },
-        categories: [...accumulator["categories"], currentValue.category_id],
         items: [...accumulator["items"],
         {
             id: currentValue.id,
@@ -22,25 +17,27 @@ const reducer = (accumulator, currentValue) => {
             picture: currentValue.thumbnail,
             condition: currentValue.condition,
             free_shipping: currentValue.shipping.free_shipping,
+            adress: {
+                ...currentValue.address
+            }
         }
         ],
-        paging: currentValue.paging
     }
 }
 
 
+const reducerCategories = (accumulator, currentValue) => [...accumulator, currentValue.name]
+
+
 function itemsHandler({ query: { q, limit, offset } }, res, next) {
-    Axios.get(`${server}search?q=${q}&limit=${limit}&offset${offset}`)
-        .then(({ data: { results, paging } }) => {
-            const defaultValue = {
-                categories: [],
-                items: [],
+    Axios.get(`${server}search?q=${q}&limit=${limit}&offset=${offset}`)
+        .then(({ data: { results, paging, filters } }) => {
 
-            }
-            const reducedData = results.reduce(reducer, defaultValue)
-
+            const reducedItems = results.reduce(reducerItems, { items: [], })
+            const reducedCategories = filters.find(e => e.id === "category").values[0].path_from_root.reduce(reducerCategories, [])
             res.send({
-                ...reducedData,
+                ...reducedItems,
+                categories: reducedCategories,
                 author: {
                     name: "Tobias",
                     lastname: "Calvento",
