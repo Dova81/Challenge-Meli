@@ -2,22 +2,32 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useRouteMatch,
-  useParams
 } from "react-router-dom";
 import SearchBar from 'components/Search/SearchBar'
-import SearchResults from 'components/SearchResults/Items'
+import SearchResults from 'components/SearchResults/ItemList'
+import ItemDetails from 'components/ItemDetails/Item'
+import styled from 'styled-components'
+
+
+const ItemsWrapper = styled.div`
+    background-color:#eeeeee;
+`
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/items/:id">
+          <ItemsWrapper>
+            <SearchBar />
+            <ItemDetails />
+          </ItemsWrapper>
+        </Route>
         <Route path="/items">
-          <>
+          <ItemsWrapper>
             <SearchBar />
             <SearchResults />
-          </>
+          </ItemsWrapper>
         </Route>
         <Route path="/">
           <SearchBar />

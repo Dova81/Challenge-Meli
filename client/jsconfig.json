@@ -7,6 +7,9 @@
             ],
             "@/api-client/*": [
                 "api-client/*"
+            ],
+            "@/Context/*": [
+                "Context/*"
             ]
         }
     },

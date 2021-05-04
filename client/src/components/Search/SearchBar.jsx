@@ -19,7 +19,7 @@ const StyledInput = styled.input`
 `
 
 const StyledLogo = styled.img`
-    margin: 0% 10% 0% 15%;
+    margin: 0% 2% 0% 20%;
 `
 
 const StyledButton = styled.button`
