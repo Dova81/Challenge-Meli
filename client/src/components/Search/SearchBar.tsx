@@ -38,14 +38,15 @@ export default function SearchBar(): JSX.Element {
 
     const [keyword, setKeyword] = useState("")
 
-    const searchKeyword = useCallback(() => {
+    const searchKeyword = useCallback((e) => {
+        e.preventDefault()
         history.push(`/items?q=${keyword}`)
     }, [keyword])
 
     return (
         <StyledSearchBar>
             <StyledLogo src="/Assets/Logo_ML.png" />
-            <form onSubmit={searchKeyword}>
+            <form onSubmit={(e) => searchKeyword(e)}>
                 <StyledInput type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Nunca dejes de buscar" />
                 <StyledButton type="submit">
                     <img src="/Assets/ic_Search.png" />

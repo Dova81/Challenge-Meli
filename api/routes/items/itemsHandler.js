@@ -34,7 +34,8 @@ function itemsHandler({ query: { q, limit, offset } }, res, next) {
         .then(({ data: { results, paging, filters } }) => {
 
             const reducedItems = results.reduce(reducerItems, { items: [], })
-            const reducedCategories = filters.find(e => e.id === "category").values[0].path_from_root.reduce(reducerCategories, [])
+            const categories = filters.find(e => e.id === "category")
+            const reducedCategories = categories ? categories.values[0].path_from_root.reduce(reducerCategories, []) : []
             res.send({
                 ...reducedItems,
                 categories: reducedCategories,
