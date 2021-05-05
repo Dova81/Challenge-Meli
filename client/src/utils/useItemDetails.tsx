@@ -3,13 +3,16 @@ import API from "api-client/api-client";
 import { Item, Categories, ServerItem } from 'types/index'
 
 
-export default function useItems(id: string): [Categories, Item?] {
+export default function useItems(id: string): [Categories, boolean, Item?] {
 
     const [data, setData] = useState<ServerItem>();
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         API.getItemDetail(id).then(res => {
             setData(res)
+            setIsLoading(false)
         })
     }, [id]);
 
@@ -21,6 +24,6 @@ export default function useItems(id: string): [Categories, Item?] {
         return (data && data.categories) || []
     }, [data])
 
-    return [categories, item]
+    return [categories, isLoading, item]
 
 }

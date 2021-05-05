@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import media from "styled-media-query";
 
 
 const BreadCrumbWrapper = styled.div`
     display:flex;
     margin:16px 0%;
-
+    ${media.lessThan("medium")`
+        font-size: 12px;
+    `}
 `
 
 const StyledBreadCrumb = styled.a`

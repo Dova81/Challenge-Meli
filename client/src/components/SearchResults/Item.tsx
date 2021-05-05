@@ -1,6 +1,9 @@
 import { Item } from 'types/';
 import React, { useMemo } from 'react';
 import styled from 'styled-components'
+import media from "styled-media-query";
+
+
 
 const StyledItemContainer = styled.div`
     display:flex;
@@ -14,6 +17,11 @@ const Thumbnail = styled.img`
     width:180px;
     height:180px;
     margin:16px;
+    ${media.lessThan("medium")`
+        width:95px;
+        height:95px;
+        margin: 8px;
+    `}
 `
 
 
@@ -30,10 +38,18 @@ const BodyWrapper = styled.div`
 const StyledPrice = styled.div`
     font-size:24px;
     margin: 17px 0 32px 0;
+    ${media.lessThan("medium")`
+        font-size: 16px;
+        margin: 13px 0 5px 0;
+    `}
 `
 
 const StyledTitle = styled.div`
     font-size:18px;
+    ${media.lessThan("medium")`
+        padding:0px 50px 0px 0px;
+        font-size:10px;
+    `}
 `
 
 const AddressWrapper = styled.div`
@@ -41,6 +57,10 @@ const AddressWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     margin: 20px 15px 0px auto;
+    font-size:12px;
+    ${media.lessThan("medium")`
+        margin: 10px 5px 0px auto;
+    `}
 `
 
 interface Props {

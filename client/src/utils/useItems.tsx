@@ -10,12 +10,14 @@ export default function useItems(keyword: string | null, defaultLimit = 4): [
     Categories,
     () => void,
     () => void,
-    Dispatch<SetStateAction<number>>
+    Dispatch<SetStateAction<number>>,
+    boolean,
 ] {
 
     const [data, setData] = useState<ServerItemList>();
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(defaultLimit)
+    const [isLoading, setIsLoading] = useState(false)
 
     const next = useCallback(() => {
         if (data && data.paging.total / limit > currentPage) {
@@ -30,11 +32,13 @@ export default function useItems(keyword: string | null, defaultLimit = 4): [
     }, [currentPage])
 
     useEffect(() => {
+        setIsLoading(true)
         API.getResults({
             keyword,
             limit,
             offset: limit * currentPage,
         }).then(res => {
+            setIsLoading(false)
             setData(res)
         })
     }, [currentPage, keyword]);
@@ -47,5 +51,5 @@ export default function useItems(keyword: string | null, defaultLimit = 4): [
         return (data && data.categories) || []
     }, [data, currentPage])
 
-    return [items, categories, next, previous, setLimit]
+    return [items, categories, next, previous, setLimit, isLoading]
 }

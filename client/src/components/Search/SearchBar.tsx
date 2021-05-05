@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
+import media from "styled-media-query";
 
 import { useHistory } from "react-router-dom";
 
@@ -20,16 +21,23 @@ const StyledInput = styled.input`
     outline: none;
     border-radius: 1px;
     padding: 15px 40% 15px 15px;
+    ${media.lessThan("medium")`
+    padding: 15px 15% 15px 15px;
+    `}
 `
 
 const StyledLogo = styled.img`
-    margin: 0% 2% 0% 20%;
+    margin: 0% 2% 0% 25%;
+    ${media.lessThan("medium")`
+        margin: 0% 2% 0% 0%;
+    `}
 `
 
 const StyledButton = styled.button`
     padding: 12px;
     border: none;
     border-radius: 1px;
+    cursor: pointer;
 `
 
 

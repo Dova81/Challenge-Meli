@@ -7,10 +7,15 @@ import SearchBar from 'components/Search/SearchBar'
 import SearchResults from 'components/SearchResults/ItemList'
 import ItemDetails from 'components/ItemDetails/Item'
 import styled from 'styled-components'
+import media from "styled-media-query";
 
 
 const ItemsWrapper = styled.div`
     background-color:#eeeeee;
+    ${media.lessThan("medium")`
+        height: 100vh;
+    `}
+
 `
 
 function App() {

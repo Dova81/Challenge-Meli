@@ -7,6 +7,7 @@ import BreadCrumbWrapper from 'components/BreadCrumb/BreadCrumb'
 import styled from 'styled-components';
 
 import { useHistory } from "react-router-dom";
+import Spinner from 'components/Spinner/Spinner';
 
 const ListWrapper = styled.div`
     margin:0% 5%;
@@ -49,13 +50,16 @@ const StyledBorder = styled.span`
 export default function ItemList() {
 
     const query = new URLSearchParams(useLocation().search);
-    const [items, categories, next, previous] = useItems(query.get("q"))
+    const [items, categories, next, previous, setLimit, isLoading] = useItems(query.get("q"))
     const history = useHistory();
 
 
     const searchId = useCallback((id) => {
         history.push(`/items/${id}`)
     }, [])
+
+
+    if (isLoading) { return <Spinner /> }
 
     return (
         <ListWrapper>
