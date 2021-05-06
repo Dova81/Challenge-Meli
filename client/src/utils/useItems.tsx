@@ -1,55 +1,49 @@
 import { useEffect, useState, useMemo, useCallback, useContext, SetStateAction, Dispatch } from "react";
 import API from "api-client/api-client";
-import { Item, Categories, ServerItemList } from 'types/index'
+import { Item, Categories, ServerItemList, Paging } from 'types/index'
 
 
+interface Props {
+    keyword: string | null
+    size: number
+    offset: number
+}
 
 
-export default function useItems(keyword: string | null, defaultLimit = 4): [
+export default function useItems({ keyword, size, offset }: Props): [
     Array<Item>,
     Categories,
-    () => void,
-    () => void,
-    Dispatch<SetStateAction<number>>,
     boolean,
+    Paging?,
 ] {
 
     const [data, setData] = useState<ServerItemList>();
-    const [currentPage, setCurrentPage] = useState<number>(0);
-    const [limit, setLimit] = useState<number>(defaultLimit)
+
     const [isLoading, setIsLoading] = useState(false)
-
-    const next = useCallback(() => {
-        if (data && data.paging.total / limit > currentPage) {
-            setCurrentPage((c) => c + 1)
-        }
-    }, [data, currentPage])
-
-    const previous = useCallback(() => {
-        if (currentPage > 0) {
-            setCurrentPage((c) => c - 1)
-        }
-    }, [currentPage])
 
     useEffect(() => {
         setIsLoading(true)
         API.getResults({
             keyword,
-            limit,
-            offset: limit * currentPage,
+            size,
+            offset: size * offset,
         }).then(res => {
             setIsLoading(false)
             setData(res)
         })
-    }, [currentPage, keyword]);
+    }, [offset, keyword]);
+
+    const paging = useMemo(() => {
+        return (data && data.paging)
+    }, [data, offset])
 
     const items = useMemo(() => {
         return (data && data.items) || []
-    }, [data, currentPage])
+    }, [data, offset])
 
     const categories = useMemo(() => {
         return (data && data.categories) || []
-    }, [data, currentPage])
+    }, [data, offset])
 
-    return [items, categories, next, previous, setLimit, isLoading]
+    return [items, categories, isLoading, paging]
 }

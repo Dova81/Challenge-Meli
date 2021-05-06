@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import useItems from 'utils/useItems';
 import { useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import { useHistory } from "react-router-dom";
 import Spinner from 'components/Spinner/Spinner';
+import Pagination from 'components/Pagination/Pagination';
 
 const ListWrapper = styled.div`
     margin:0% 5%;
@@ -50,9 +51,23 @@ const StyledBorder = styled.span`
 export default function ItemList() {
 
     const query = new URLSearchParams(useLocation().search);
-    const [items, categories, next, previous, setLimit, isLoading] = useItems(query.get("q"))
+    const [offset, setOffset] = useState<number>(0);
+    const [size, setSize] = useState<number>(4)
+
+    const [items, categories, isLoading, paging,] = useItems({
+        keyword: query.get("q"),
+        size,
+        offset
+
+    })
     const history = useHistory();
 
+    const currentPage = Math.floor(offset / size)
+    const totalPage = Math.ceil((paging?.total ?? 0) / size)
+
+    const setPage = useCallback((newPage) => {
+        setOffset(size * newPage)
+    }, [size])
 
     const searchId = useCallback((id) => {
         history.push(`/items/${id}`)
@@ -74,14 +89,12 @@ export default function ItemList() {
                 </StyledBorder>
             )}
 
-            <PaginationWrapper>
-                <PaginationAnchor onClick={previous}>
-                    {"<"} Anterior
-                </PaginationAnchor>
-                <PaginationAnchor onClick={next}>
-                    Siguiente {">"}
-                </PaginationAnchor>
-            </PaginationWrapper>
+            {totalPage > 1 &&
+                <Pagination
+                    current={currentPage}
+                    total={totalPage}
+                    setPage={setPage}
+                />}
         </ListWrapper>
     )
 
