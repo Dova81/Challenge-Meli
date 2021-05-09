@@ -4,6 +4,7 @@ import capitalize from 'utils/capitalize';
 import { useParams } from "react-router-dom";
 import BreadCrumbWrapper from 'components/BreadCrumb/BreadCrumb'
 import Spinner from 'components/Spinner/Spinner';
+
 import styled from 'styled-components';
 import media from 'styled-media-query'
 

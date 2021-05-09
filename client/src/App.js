@@ -5,9 +5,10 @@ import {
 } from "react-router-dom";
 import SearchBar from 'components/Search/SearchBar'
 import SearchResults from 'components/SearchResults/ItemList'
-import ItemDetails from 'components/ItemDetails/Item'
 import styled from 'styled-components'
 import media from "styled-media-query";
+import Details from "components/Pages/Details";
+import Results from "components/Pages/Results";
 
 
 const ItemsWrapper = styled.div`
@@ -20,25 +21,23 @@ const ItemsWrapper = styled.div`
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/items/:id">
-          <ItemsWrapper>
+    <ItemsWrapper>
+      <Router>
+        <Switch>
+          <Route path="/items/:id">
+
+            <Details />
+
+          </Route>
+          <Route path="/items">
+            <Results />
+          </Route>
+          <Route path="/">
             <SearchBar />
-            <ItemDetails />
-          </ItemsWrapper>
-        </Route>
-        <Route path="/items">
-          <ItemsWrapper>
-            <SearchBar />
-            <SearchResults />
-          </ItemsWrapper>
-        </Route>
-        <Route path="/">
-          <SearchBar />
-        </Route>
-      </Switch>
-    </Router>
+          </Route>
+        </Switch>
+      </Router>
+    </ItemsWrapper>
   );
 }
 

@@ -2,31 +2,18 @@ import React, { useCallback, useState } from 'react';
 
 import useItems from 'utils/useItems';
 import { useLocation } from "react-router-dom";
+import styled from 'styled-components';
+import { Helmet } from "react-helmet";
+import { useHistory } from "react-router-dom";
+
 import ListedItem from 'components/SearchResults/Item'
 import BreadCrumbWrapper from 'components/BreadCrumb/BreadCrumb'
-import styled from 'styled-components';
-
-import { useHistory } from "react-router-dom";
 import Spinner from 'components/Spinner/Spinner';
 import Pagination from 'components/Pagination/Pagination';
 
 const ListWrapper = styled.div`
     margin:0% 5%;
 `
-
-const PaginationWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`
-
-const PaginationAnchor = styled.a`
-    margin:15px;
-    cursor:pointer;
-    color:#3425ff;
-`
-
-
 
 const StyledBorder = styled.span`
         .separator{

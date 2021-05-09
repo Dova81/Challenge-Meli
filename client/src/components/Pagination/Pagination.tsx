@@ -38,7 +38,7 @@ interface Props {
 export default function Pagination({ current, total, setPage }: Props) {
 
 
-    if (current == 1) {
+    if (current == 0) {
         return (
             <PaginationWrapper>
                 <PaginationAnchor >
